@@ -8,7 +8,7 @@ namespace libraryMS
 {
     public  static class Service
     {
-        public static Book CreateBook()
+        public static Book CreateBook()                  // a function, get inputs through the console,return those with book object
         {
             Book book = new Book();
 
@@ -34,5 +34,35 @@ namespace libraryMS
 
             return book;
         }
+
+        public static Member CreateMember()        //take input from console for new member,return those with member obj
+        {
+            Member member = new Member();
+
+            Console.Write("UserId: ");
+            member.UserId = Console.ReadLine();
+
+            Console.Write("User Name: ");
+            member.UserName = Console.ReadLine();
+
+
+            return member;
+        }
+
+        //this function will automatically call wahen a member take a book,within a another function
+        public static OutgoneBook CreateOutgoneBook(string BookName,string BookId,string Borrower,String BorrowerId)
+        {
+            OutgoneBook Outgone_book = new OutgoneBook();
+
+            Outgone_book.Title = BookName;
+            Outgone_book.BookId=BookId;
+            Outgone_book.MemberName=Borrower;
+            Outgone_book.MemberId=BorrowerId;
+
+
+            return Outgone_book;
+        }
+
+
     }
 }
