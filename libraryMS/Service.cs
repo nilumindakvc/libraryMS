@@ -76,10 +76,74 @@ namespace libraryMS
                     Console.WriteLine("Member Name    : "+reading_member.UserName);
                     Console.WriteLine("Member Email   : "+reading_member.Email);
                     Console.WriteLine("registered Day : "+reading_member.RegisteredDay.ToShortDateString());
+                    break;
                 }
 
             }
         }
 
+
+        public static void BorrowBook( DynamicArray<Book> bookStore)
+        {
+            Console.WriteLine(
+                "Available Categories" +
+                "\nMathematics         -->M"+
+                "\nPhysics             -->P"+
+                "\nChemistry           -->C"+
+                "\nEconomics           -->E"+
+                "\nComputer Science    -->Cs"+
+                "\nBiology             -->B"+
+                "\nBusiness            -->Bs"
+            );
+
+            Console.Write("enter category: ");
+            string user_input = Console.ReadLine();
+
+            string category;
+
+            switch (user_input)
+            {
+                case "M":
+                    category = "Mathematics";
+                    break;
+                case "P":
+                    category = "Physics";
+                    break;
+                case "C":
+                    category = "Chemistry";
+                    break;
+                case "E":
+                    category = "Economics";
+                    break;
+                case "Cs":
+                    category = "Computer Science";
+                    break;
+                case "B":
+                    category = "Biology";
+                    break;
+                case "Bs":
+                    category = "Business";
+                    break;
+                default:
+                    category = "invalid";
+                    break;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("avilable books\n");
+
+            
+                for (int i = 0; i < bookStore.count; i++)
+                {
+                    Book book = bookStore.GetObj(i);
+                    if (book.Category == category)
+                    {
+                        Console.WriteLine(book.Title +"(id:"+ book.BookId+")");
+                    }
+                }
+            
+            
+        }
+        
     }
 }

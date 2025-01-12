@@ -19,7 +19,8 @@ class Program
         Console.WriteLine(
               "Add new book         -->  add  -book\n" +
               "Add new member       -->  add  -mem\n" +
-              "Read member          -->  read -mem\n"
+              "Read member          -->  read -mem\n" +
+              "Borrow book          -->  bor\n"
         );
 
         
@@ -30,6 +31,7 @@ class Program
         {
             Console.Write("\noperation: ");
             string Operation_selected = Console.ReadLine();
+            Console.WriteLine();
 
             switch (Operation_selected)
             {
@@ -46,6 +48,9 @@ class Program
                     string member_id= Console.ReadLine();
                     Console.WriteLine();
                     Service.ReadMember(LibraryManager.MemberStore, member_id);
+                    break;
+                case "bor":
+                    Service.BorrowBook(LibraryManager.BooksStore);
                     break;
                 default:
                     Console.WriteLine("you have not give proper input");
