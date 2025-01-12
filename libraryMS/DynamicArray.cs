@@ -9,7 +9,7 @@ namespace libraryMS
     public class DynamicArray<T>   //Template class to store objects of different classes
     {
         private int capacity;
-        private int count;
+        public int count;
         private T[] data;
 
         public DynamicArray()
@@ -32,6 +32,11 @@ namespace libraryMS
             data[count] = value;
             count++;
 
+        }
+
+        public T GetObj(int index)
+        {
+            return data[index];
         }
 
         public void Remove(int index)

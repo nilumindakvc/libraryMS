@@ -5,31 +5,22 @@ class Program
 {
     static void Main(string[] args)
     {
-        DynamicArray<Book> BooksStore = new DynamicArray<Book>();                   //dynamic array to store books details 
-        
-        DynamicArray<Member> MemberStore = new DynamicArray<Member>();              //dynamic array to store member details
+        LibraryManager.InitializeBooks();                //initialize some books at the strat ,to the LibraryManager.BooksStore dynamic array
+
+        LibraryManager.InitializeMembers();              //initialize some members at the start,to the LibraryManager.MemberStroe dynamic array
 
         DynamicArray<OutgoneBook> OutgoneBooks = new DynamicArray<OutgoneBook>();   //dyanamic array to store outgonebooks details
 
 
 
-        
-        BooksStore.Add(new Book(100, "ISBN100", "Fourier Transform", "Butler", "Mathamatics", 10));   //adding books inside the source code
-        BooksStore.Add(new Book(100, "ISBN100", "Fourier Transform", "Butler", "Mathamatics", 10));
-        BooksStore.Add(new Book(100, "ISBN100", "Fourier Transform", "Butler", "Mathamatics", 10));
-        BooksStore.Add(new Book(100, "ISBN100", "Fourier Transform", "Butler", "Mathamatics", 10));
-        BooksStore.Add(new Book(100, "ISBN100", "Fourier Transform", "Butler", "Mathamatics", 10));
-
-
-
-
-       ;
-
+       
         Console.WriteLine("Library Management System");
 
         Console.WriteLine(
-              "Add new book         -->  add -book\n" +
-              "Add new member       -->  add -mem\n" );
+              "Add new book         -->  add  -book\n" +
+              "Add new member       -->  add  -mem\n" +
+              "Read member          -->  read -mem\n"
+        );
 
         
 
@@ -43,12 +34,18 @@ class Program
             switch (Operation_selected)
             {
                 case "add -book":
-                    Book NewBook = Service.CreateBook();         //adding books from the console
-                    BooksStore.Add(NewBook);
+                    Book NewBook = Service.CreateBook();         //adding books further from the console
+                    LibraryManager.BooksStore.Add(NewBook);
                     break;
                 case "add -mem":
-                    Member member = Service.CreateMember();
-                    MemberStore.Add(member);
+                    Member member = Service.CreateMember();     //adding members further from the console
+                    LibraryManager.MemberStore.Add(member);
+                    break;
+                case "read -mem":
+                    Console.Write("\nenter member id: ");
+                    string member_id= Console.ReadLine();
+                    Console.WriteLine();
+                    Service.ReadMember(LibraryManager.MemberStore, member_id);
                     break;
                 default:
                     Console.WriteLine("you have not give proper input");

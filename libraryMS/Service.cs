@@ -63,6 +63,23 @@ namespace libraryMS
             return Outgone_book;
         }
 
+        public static void  ReadMember(DynamicArray<Member> MemberStore ,string user_id)
+        {
+             
+            // linear serch is implemented here
+
+            for(int i = 0; i < MemberStore.count; i++)
+            {
+               Member reading_member = MemberStore.GetObj(i);
+               if(reading_member.UserId== user_id)
+                {
+                    Console.WriteLine("Member Name    : "+reading_member.UserName);
+                    Console.WriteLine("Member Email   : "+reading_member.Email);
+                    Console.WriteLine("registered Day : "+reading_member.RegisteredDay.ToShortDateString());
+                }
+
+            }
+        }
 
     }
 }

@@ -12,5 +12,22 @@ namespace libraryMS
         public string UserName { get; set; }
         public string Email { get; set; }
         public DateTime RegisteredDay { get; set; }
+
+
+
+        public Member()
+        {
+            RegisteredDay = DateTime.Today;
+        }
+
+        public Member(string userId, string userName, string email)
+        {
+            UserId = userId;
+            UserName = userName;
+            Email = email;
+            RegisteredDay= DateTime.Today;
+        }   
     }
+
+    
 }
