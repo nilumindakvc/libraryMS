@@ -50,14 +50,15 @@ namespace libraryMS
         }
 
         //this function will automatically call wahen a member take a book,within a another function
-        public static OutgoneBook CreateOutgoneBook(string BookName,string BookId,string Borrower,String BorrowerId)
+        public static OutgoneBook CreateOutgoneBook(string BookName,int BookId,string BorrowerId)
         {
             OutgoneBook Outgone_book = new OutgoneBook();
 
             Outgone_book.Title = BookName;
             Outgone_book.BookId=BookId;
-            Outgone_book.MemberName=Borrower;
             Outgone_book.MemberId=BorrowerId;
+            Outgone_book.OutGoneDate=DateTime.Today;
+            Outgone_book.OutGoneTime=DateTime.Now.TimeOfDay;
 
 
             return Outgone_book;
@@ -83,7 +84,7 @@ namespace libraryMS
         }
 
 
-        public static void BorrowBook( DynamicArray<Book> bookStore)
+        public static void BorrowBook( DynamicArray<Book> bookStore,DynamicArray<OutgoneBook> outgoneBooks)
         {
             Console.WriteLine(
                 "Available Categories" +
@@ -132,18 +133,75 @@ namespace libraryMS
             Console.WriteLine();
             Console.WriteLine("avilable books\n");
 
+            DynamicArray<Book> BookBucket = new DynamicArray<Book>(); //this dynamic array is for seperating some books from bookstore
+                
             
-                for (int i = 0; i < bookStore.count; i++)
+                for (int i = 0; i < bookStore.count; i++)   
                 {
                     Book book = bookStore.GetObj(i);
-                    if (book.Category == category)
+                    if (book.Category == category)                  //linear serch going here
                     {
                         Console.WriteLine(book.Title +"(id:"+ book.BookId+")");
+                        BookBucket.Add(book);
                     }
                 }
             
-            
+            Console.Write("\nenter book id or exit by '0' : ") ;
+            int bookid_or_exit =Convert.ToInt32( Console.ReadLine());
+
+            if( bookid_or_exit != 0)
+            {
+                
+                for(int i = 0; i < BookBucket.count; i++)
+                {
+                    Book book = BookBucket.GetObj(i);
+                    if (bookid_or_exit == book.BookId)
+                    {
+                        if(book.Numof_Copies == 0)
+                        {
+                            Console.WriteLine("\nNo copies are available") ;
+                            Console.WriteLine("you will be added to waiting list");
+                        }
+                        else
+                        {
+                            Console.Write("enter your MemberId: ") ;
+                            string borrower_id = Console.ReadLine();
+
+                            OutgoneBook outedBook = CreateOutgoneBook(book.Title, book.BookId,borrower_id);
+                            outgoneBooks.Add(outedBook);
+
+                            Console.WriteLine("\nBook name :" + book.Title + " is borrowed ");
+                            book.Numof_Copies -= 1;
+                            Console.WriteLine("remain copies: " + book.Numof_Copies);
+
+                        }
+                       
+                    }
+                    
+                }
+            }
         }
         
+
+        public static void ReadOutgoneBooks(DynamicArray<OutgoneBook> outsideBooks)
+        {
+            if (outsideBooks.count == 0)
+            {
+                Console.WriteLine("no book gone out side");
+            }
+            else
+            {
+                for(int i = 0;i < outsideBooks.count; i++)
+                {
+                    OutgoneBook book = outsideBooks.GetObj(i);
+                    Console.WriteLine("book id: " + book.BookId + "\t" +
+                                                  book.Title + "\tborrowed by member id: " +
+                                                  book.MemberId + "\tdate: " +
+                                                  book.OutGoneDate.ToString() + "\tat: " +
+                                                  book.OutGoneTime.ToString()
+                    );
+                }
+            }
+        }
     }
 }

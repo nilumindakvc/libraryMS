@@ -15,7 +15,7 @@ namespace libraryMS
         {
 
             BooksStore.Add(new Book(101, "ISBN101", "Linear Algebra", "Smith", "Mathematics", 15));
-            BooksStore.Add(new Book(102, "ISBN102", "Differential Equations", "Johnson", "Mathematics", 12));
+            BooksStore.Add(new Book(102, "ISBN102", "Differential Equations", "Johnson", "Mathematics", 2));
             BooksStore.Add(new Book(103, "ISBN103", "Quantum Mechanics", "Williams", "Physics", 8));
             BooksStore.Add(new Book(104, "ISBN104", "Organic Chemistry", "Brown", "Chemistry", 20));
             BooksStore.Add(new Book(105, "ISBN105", "Microeconomics", "Jones", "Economics", 18));

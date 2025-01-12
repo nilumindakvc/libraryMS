@@ -20,7 +20,8 @@ class Program
               "Add new book         -->  add  -book\n" +
               "Add new member       -->  add  -mem\n" +
               "Read member          -->  read -mem\n" +
-              "Borrow book          -->  bor\n"
+              "Borrow book          -->  bor\n" +
+              "Outgone books        -->  outed\n"
         );
 
         
@@ -50,7 +51,10 @@ class Program
                     Service.ReadMember(LibraryManager.MemberStore, member_id);
                     break;
                 case "bor":
-                    Service.BorrowBook(LibraryManager.BooksStore);
+                    Service.BorrowBook(LibraryManager.BooksStore,OutgoneBooks);
+                    break;
+                case "outed":
+                    Service.ReadOutgoneBooks(OutgoneBooks);
                     break;
                 default:
                     Console.WriteLine("you have not give proper input");
