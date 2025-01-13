@@ -1,5 +1,4 @@
-﻿
-using libraryMS;
+﻿using libraryMS;
 
 class Program
 {
@@ -13,25 +12,29 @@ class Program
 
 
 
-       
+
         Console.WriteLine("Library Management System");
 
         Console.WriteLine(
-              "Add new book         -->  add  -book\n" +
-              "Add new member       -->  add  -mem\n" +
-              "Read member          -->  read -mem\n" +
-              "Borrow book          -->  bor\n" +
-              "member list          -->  memlist\n"//update deneth
-
+              "Add new book               -->  add  -book\n" +
+              "Add new member             -->  add  -mem\n" +
+              "Read member                -->  read -mem\n" +
+              "Borrow book                -->  bor\n" +
+              "Outgone books              -->  outed\n" +
+              "Sort Outgone books by date -->  outed -sor\n" +
+              "Read all members           -->  mem -all\n" +     //update deneth
+              "Sort members by name       -->  mem -sort\n" +
+              "Display waiting queue      -->  queue -view\n" +     // she
+              "Exit the programme         -->  exit"
         );
 
-        
+
 
         string Continuity = "y";
 
         while (Continuity == "y")
         {
-            Console.Write("\noperation: ");
+            Console.Write("\n>> ");
             string Operation_selected = Console.ReadLine();
             Console.WriteLine();
 
@@ -47,35 +50,41 @@ class Program
                     break;
                 case "read -mem":
                     Console.Write("\nenter member id: ");
-                    string member_id= Console.ReadLine();
+                    string member_id = Console.ReadLine();
                     Console.WriteLine();
                     Service.ReadMember(LibraryManager.MemberStore, member_id);
                     break;
                 case "bor":
-                    Service.BorrowBook(LibraryManager.BooksStore);
+                    Service.BorrowBook(LibraryManager.BooksStore, OutgoneBooks);
                     break;
-                    //update 1
-                case "memlist":
+                case "outed":
+                    Service.ReadOutgoneBooks(OutgoneBooks);
+                    break;
+                case "outed -sort":
+                    Service.SortOutgoneBooksByDate(OutgoneBooks);
+                    break;
+                case "mem -sort":
                     Service.SortMembersByName(LibraryManager.MemberStore);  // Sort the member list
-                    Console.WriteLine("Sorted Member List:");
-                    for (int i = 0; i < LibraryManager.MemberStore.count; i++)
-                    {
-                        Member sortedMember = LibraryManager.MemberStore.GetObj(i);  // Fetch the sorted member
-                        Console.WriteLine($"{sortedMember.UserId}-{sortedMember.UserName}");  // Display sorted member info
-                    }
                     break;
-
-                    //update 1 end
-
+                case "mem -all":
+                    Service.ReadAllMembers(LibraryManager.MemberStore);
+                    break;
+                case "queue -view":
+                    Service.DisplayWaitingQueue(LibraryManager.BooksStore);      // she
+                    break;
+                case "exit":
+                    break;
                 default:
                     Console.WriteLine("you have not give proper input");
                     break;
 
             }
 
-            Console.Write("\nmore operations?: y/n  ");
-            Continuity= Console.ReadLine();
-
+            if (Operation_selected == "exit")
+            {
+                break;
+            }
+            Continuity = "y";
         }
 
     }

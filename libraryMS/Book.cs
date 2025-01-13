@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace libraryMS         
+namespace libraryMS
 {
     public class Book         //class for storing properties of a book
     {
@@ -15,13 +15,16 @@ namespace libraryMS
         public string Category { get; set; }
         public int Numof_Copies { get; set; }
         public int Numof_Borrows { get; set; }
+        public Queue<string> WaitingQueue { get; set; } // she
 
-        public Book() 
-        { 
+
+        public Book()
+        {
             Numof_Borrows = 0;
+            WaitingQueue = new Queue<string>();  // she
         }
 
-        public Book(int bookId,string isbn,string title,string author,string category,int numof_copies)
+        public Book(int bookId, string isbn, string title, string author, string category, int numof_copies)
         {
             BookId = bookId;
             ISBN = isbn;
@@ -30,6 +33,13 @@ namespace libraryMS
             Category = category;
             Numof_Copies = numof_copies;
             Numof_Borrows = 0;
+            WaitingQueue = new Queue<string>(); // she
         }
+
+
+
     }
 }
+
+
+

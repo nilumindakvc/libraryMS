@@ -25,9 +25,9 @@ namespace libraryMS
             UserId = userId;
             UserName = userName;
             Email = email;
-            RegisteredDay= DateTime.Today;
-        }   
+            RegisteredDay = DateTime.Today;
+        }
     }
 
-    
+
 }
