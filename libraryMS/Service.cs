@@ -274,6 +274,7 @@ namespace libraryMS
                         }
                     }
                 }
+                Console.WriteLine("sorted");
             }
             else
             {
@@ -309,7 +310,57 @@ namespace libraryMS
                         }
                     }
                 }
+                Console.WriteLine("sorted");
+            }
+            
+        }
 
+
+
+        //Insertion sort deneth
+        // Edit Start: Fixed sorting logic to correctly alphabetically sort the members by UserName in a case-insensitive way.
+        public static void SortMembersByName(DynamicArray<Member> MemberStore)
+        {
+            // 1. Create a copy of the members
+            Member[] members = new Member[MemberStore.count];
+            for (int i = 0; i < MemberStore.count; i++)
+            {
+                members[i] = MemberStore.GetObj(i);
+            }
+
+            // 2. Sort the members array using Insertion Sort
+            for (int i = 1; i < members.Length; i++)
+            {
+                Member key = members[i];
+                int j = i - 1;
+
+                while (j >= 0 && string.Compare(members[j].UserName, key.UserName) > 0)
+                {
+                    members[j + 1] = members[j];
+                    j--;
+                }
+
+                members[j + 1] = key;
+            }
+
+            // 3. Clear and update the MemberStore
+            MemberStore.count = 0;
+            foreach (var member in members)
+            {
+                MemberStore.Add(member);
+            }
+
+            Console.WriteLine("sorted");
+
+        }
+
+        public static void ReadAllMembers(DynamicArray<Member> MemberStore)
+        {
+            Console.WriteLine("\nMember List:\n");
+            for (int i = 0; i < LibraryManager.MemberStore.count; i++)
+            {
+                Member member = LibraryManager.MemberStore.GetObj(i);  // Fetch the sorted member
+                Console.WriteLine(member.UserId+"\t"+member.UserName);  // Display sorted member info
             }
         }
     }

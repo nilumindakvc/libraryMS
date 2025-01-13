@@ -23,6 +23,8 @@ class Program
               "Borrow book                -->  bor\n" +
               "Outgone books              -->  outed\n" +
               "Sort Outgone books by date -->  outed -sor\n"+
+              "Read all members           -->  mem -all\n"  +     //update deneth
+              "Sort members by name       -->  mem -sort\n"+
               "Exit the programme         -->  exit"
         );
 
@@ -60,6 +62,12 @@ class Program
                     break;
                 case "outed -sort":
                     Service.SortOutgoneBooksByDate(OutgoneBooks);
+                    break;
+                case "mem -sort":
+                    Service.SortMembersByName(LibraryManager.MemberStore);  // Sort the member list
+                    break;
+                case "mem -all":
+                    Service.ReadAllMembers(LibraryManager.MemberStore);
                     break;
                 case "exit":
                     break;
