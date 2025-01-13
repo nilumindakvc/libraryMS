@@ -57,8 +57,8 @@ namespace libraryMS
             Outgone_book.Title = BookName;
             Outgone_book.BookId=BookId;
             Outgone_book.MemberId=BorrowerId;
-            Outgone_book.OutGoneDate=DateTime.Today;
-            Outgone_book.OutGoneTime=DateTime.Now.TimeOfDay;
+            Outgone_book.OutGoneDate=DateTime.Now;
+           
 
 
             return Outgone_book;
@@ -97,89 +97,109 @@ namespace libraryMS
                 "\nBusiness            -->Bs"
             );
 
-            Console.Write("enter category: ");
-            string user_input = Console.ReadLine();
+            bool MemberIdEntered = false;
+            int FurtherBooks = 1;
+            string borrower_id = " ";
+            int bookid_or_exit = 1;
 
-            string category;
-
-            switch (user_input)
+            do
             {
-                case "M":
-                    category = "Mathematics";
-                    break;
-                case "P":
-                    category = "Physics";
-                    break;
-                case "C":
-                    category = "Chemistry";
-                    break;
-                case "E":
-                    category = "Economics";
-                    break;
-                case "Cs":
-                    category = "Computer Science";
-                    break;
-                case "B":
-                    category = "Biology";
-                    break;
-                case "Bs":
-                    category = "Business";
-                    break;
-                default:
-                    category = "invalid";
-                    break;
-            }
 
-            Console.WriteLine();
-            Console.WriteLine("avilable books\n");
+                Console.Write("enter category: ");
+                string user_input = Console.ReadLine();
 
-            DynamicArray<Book> BookBucket = new DynamicArray<Book>(); //this dynamic array is for seperating some books from bookstore
-                
-            
-                for (int i = 0; i < bookStore.count; i++)   
+                string category;
+
+                switch (user_input)
+                {
+                    case "M":
+                        category = "Mathematics";
+                        break;
+                    case "P":
+                        category = "Physics";
+                        break;
+                    case "C":
+                        category = "Chemistry";
+                        break;
+                    case "E":
+                        category = "Economics";
+                        break;
+                    case "Cs":
+                        category = "Computer Science";
+                        break;
+                    case "B":
+                        category = "Biology";
+                        break;
+                    case "Bs":
+                        category = "Business";
+                        break;
+                    default:
+                        category = "invalid";
+                        break;
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("avilable books\n");
+
+                DynamicArray<Book> BookBucket = new DynamicArray<Book>(); //this dynamic array is for seperating some books from bookstore
+
+
+                for (int i = 0; i < bookStore.count; i++)
                 {
                     Book book = bookStore.GetObj(i);
                     if (book.Category == category)                  //linear serch going here
                     {
-                        Console.WriteLine(book.Title +"(id:"+ book.BookId+")");
+                        Console.WriteLine(book.Title + "(id:" + book.BookId + ")");
                         BookBucket.Add(book);
                     }
                 }
-            
-            Console.Write("\nenter book id or exit by '0' : ") ;
-            int bookid_or_exit =Convert.ToInt32( Console.ReadLine());
 
-            if( bookid_or_exit != 0)
-            {
-                
-                for(int i = 0; i < BookBucket.count; i++)
+
+
+
+
+                Console.Write("\nenter book id or exit by 0 : ");
+                bookid_or_exit = Convert.ToInt32(Console.ReadLine());
+
+                if (bookid_or_exit != 0)
                 {
-                    Book book = BookBucket.GetObj(i);
-                    if (bookid_or_exit == book.BookId)
+
+                    for (int i = 0; i < BookBucket.count; i++)
                     {
-                        if(book.Numof_Copies == 0)
+                        Book book = BookBucket.GetObj(i);
+                        if (bookid_or_exit == book.BookId)
                         {
-                            Console.WriteLine("\nNo copies are available") ;
-                            Console.WriteLine("you will be added to waiting list");
+                            if (book.Numof_Copies == 0)
+                            {
+                                Console.WriteLine("\nNo copies are available");
+                                Console.WriteLine("you will be added to waiting list");
+                            }
+                            else
+                            {
+                                if (MemberIdEntered == false)
+                                {
+                                    Console.Write("enter your MemberId: ");
+                                    borrower_id = Console.ReadLine();
+                                    MemberIdEntered = true;
+                                }
+
+                                OutgoneBook outedBook = CreateOutgoneBook(book.Title, book.BookId, borrower_id);
+                                outgoneBooks.Add(outedBook);
+
+                                Console.WriteLine("\nBook name :" + book.Title + " is borrowed ");
+                                book.Numof_Copies -= 1;
+                                Console.WriteLine("remain copies: " + book.Numof_Copies);
+
+                                Console.Write("for more books enter 1 or exit by 0: ");
+                                FurtherBooks = Convert.ToInt32(Console.ReadLine());
+
+                            }
+
                         }
-                        else
-                        {
-                            Console.Write("enter your MemberId: ") ;
-                            string borrower_id = Console.ReadLine();
 
-                            OutgoneBook outedBook = CreateOutgoneBook(book.Title, book.BookId,borrower_id);
-                            outgoneBooks.Add(outedBook);
-
-                            Console.WriteLine("\nBook name :" + book.Title + " is borrowed ");
-                            book.Numof_Copies -= 1;
-                            Console.WriteLine("remain copies: " + book.Numof_Copies);
-
-                        }
-                       
                     }
-                    
                 }
-            }
+            } while (FurtherBooks != 0 && bookid_or_exit != 0);
         }
         
 
@@ -197,10 +217,99 @@ namespace libraryMS
                     Console.WriteLine("book id: " + book.BookId + "\t" +
                                                   book.Title + "\tborrowed by member id: " +
                                                   book.MemberId + "\tdate: " +
-                                                  book.OutGoneDate.ToString() + "\tat: " +
-                                                  book.OutGoneTime.ToString()
+                                                  book.OutGoneDate.ToString()
+                                                  
                     );
                 }
+            }
+        }
+
+
+        public static void SortOutgoneBooksByDate(DynamicArray<OutgoneBook> outgonebooks)
+        {
+            if(outgonebooks.count == 0)
+            {
+                Console.WriteLine("no book gone out to sort");
+                return;
+            }
+             
+              Console.WriteLine("\noldest  bookout to top --> ofst" +
+                                 "\nnewest bookout to top  --> nfst");
+              Console.Write("\nenter the order: ");
+              string user_input=Console.ReadLine();
+
+            int n = outgonebooks.count;
+
+            if (user_input == "ofst")
+            {
+
+                for (int i = 0; i < n - 1; i++)                                 //bubble sort for accending order sorting
+                {
+                    for (int j = 0; j < n - i - 1; j++)
+                    {
+                        OutgoneBook book1 = outgonebooks.GetObj(j);
+                        OutgoneBook book2 = outgonebooks.GetObj(j + 1);
+
+                        if (book1.OutGoneDate > book2.OutGoneDate)
+                        {
+                            // Swap two outgonebook objects
+
+                            OutgoneBook temp = new OutgoneBook();
+
+                            temp.BookId = book1.BookId;
+                            temp.Title = book1.Title;
+                            temp.MemberId = book1.MemberId;
+                            temp.OutGoneDate = book1.OutGoneDate;
+
+                            book1.BookId = book2.BookId;
+                            book1.Title = book2.Title;
+                            book1.MemberId = book2.MemberId;
+                            book1.OutGoneDate = book2.OutGoneDate;
+
+                            book2.BookId = temp.BookId;
+                            book2.Title = temp.Title;
+                            book2.MemberId = temp.MemberId;
+                            book2.OutGoneDate = temp.OutGoneDate;
+
+                        }
+                    }
+                }
+            }
+            else
+            {
+
+                for (int i = 0; i < n - 1; i++)                                 //bubble sort for deccending  order sorting
+                {
+                    for (int j = 0; j < n - i - 1; j++)
+                    {
+                        OutgoneBook book1 = outgonebooks.GetObj(j);
+                        OutgoneBook book2 = outgonebooks.GetObj(j + 1);
+
+                        if (book1.OutGoneDate < book2.OutGoneDate)
+                        {
+                            // Swap two outgonebook objects
+
+                            OutgoneBook temp = new OutgoneBook();
+
+                            temp.BookId = book1.BookId;
+                            temp.Title = book1.Title;
+                            temp.MemberId = book1.MemberId;
+                            temp.OutGoneDate = book1.OutGoneDate;
+
+                            book1.BookId = book2.BookId;
+                            book1.Title = book2.Title;
+                            book1.MemberId = book2.MemberId;
+                            book1.OutGoneDate = book2.OutGoneDate;
+
+                            book2.BookId = temp.BookId;
+                            book2.Title = temp.Title;
+                            book2.MemberId = temp.MemberId;
+                            book2.OutGoneDate = temp.OutGoneDate;
+
+                        }
+                    }
+                }
+
             }
         }
     }

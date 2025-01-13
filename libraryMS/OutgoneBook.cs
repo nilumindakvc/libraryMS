@@ -12,7 +12,7 @@ namespace libraryMS
         public string Title { get; set; }
         public string MemberId { get; set; }
         public DateTime OutGoneDate { get; set; }
-        public TimeSpan OutGoneTime { get; set; }
+        
 
     }
 }

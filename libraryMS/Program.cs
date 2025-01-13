@@ -17,11 +17,13 @@ class Program
         Console.WriteLine("Library Management System");
 
         Console.WriteLine(
-              "Add new book         -->  add  -book\n" +
-              "Add new member       -->  add  -mem\n" +
-              "Read member          -->  read -mem\n" +
-              "Borrow book          -->  bor\n" +
-              "Outgone books        -->  outed\n"
+              "Add new book               -->  add  -book\n" +
+              "Add new member             -->  add  -mem\n" +
+              "Read member                -->  read -mem\n" +
+              "Borrow book                -->  bor\n" +
+              "Outgone books              -->  outed\n" +
+              "Sort Outgone books by date -->  outed -sor\n"+
+              "Exit the programme         -->  exit"
         );
 
         
@@ -30,7 +32,7 @@ class Program
 
         while (Continuity == "y")
         {
-            Console.Write("\noperation: ");
+            Console.Write("\n>> ");
             string Operation_selected = Console.ReadLine();
             Console.WriteLine();
 
@@ -56,15 +58,22 @@ class Program
                 case "outed":
                     Service.ReadOutgoneBooks(OutgoneBooks);
                     break;
+                case "outed -sort":
+                    Service.SortOutgoneBooksByDate(OutgoneBooks);
+                    break;
+                case "exit":
+                    break;
                 default:
                     Console.WriteLine("you have not give proper input");
                     break;
 
             }
 
-            Console.Write("\nmore operations?: y/n  ");
-            Continuity= Console.ReadLine();
-
+            if(Operation_selected == "exit")
+            {
+                break;
+            }
+            Continuity = "y";
         }
 
     }
