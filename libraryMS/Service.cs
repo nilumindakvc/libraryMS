@@ -63,24 +63,39 @@ namespace libraryMS
 
             return Outgone_book;
         }
-        //Tim sort deneth
+        //Insertion sort deneth
         // Edit Start: Fixed sorting logic to correctly alphabetically sort the members by UserName in a case-insensitive way.
         public static void SortMembersByName(DynamicArray<Member> MemberStore)
         {
+            // 1. Create a copy of the members
             Member[] members = new Member[MemberStore.count];
             for (int i = 0; i < MemberStore.count; i++)
             {
                 members[i] = MemberStore.GetObj(i);
             }
 
-            // Sort the members array by UserName
-            members = members.OrderBy(m => m.UserName).ToArray();
+            // 2. Sort the members array using Insertion Sort
+            for (int i = 1; i < members.Length; i++)
+            {
+                Member key = members[i];
+                int j = i - 1;
 
+                while (j >= 0 && string.Compare(members[j].UserName, key.UserName) > 0)
+                {
+                    members[j + 1] = members[j];
+                    j--;
+                }
+
+                members[j + 1] = key;
+            }
+
+            // 3. Clear and update the MemberStore
             MemberStore.count = 0;
             foreach (var member in members)
             {
                 MemberStore.Add(member);
             }
+        
         }
         // Edit End
         public static void  ReadMember(DynamicArray<Member> MemberStore ,string user_id)
