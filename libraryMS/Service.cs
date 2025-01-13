@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace libraryMS
 {
     public  static class Service
     {
-        public static Book CreateBook()                  // a function, get inputs through the console,return those with book object
+        public static Book CreateBook()// a function, get inputs through the console,return those with book object
         {
             Book book = new Book();
 
@@ -62,7 +63,26 @@ namespace libraryMS
 
             return Outgone_book;
         }
+        //Tim sort deneth
+        // Edit Start: Fixed sorting logic to correctly alphabetically sort the members by UserName in a case-insensitive way.
+        public static void SortMembersByName(DynamicArray<Member> MemberStore)
+        {
+            Member[] members = new Member[MemberStore.count];
+            for (int i = 0; i < MemberStore.count; i++)
+            {
+                members[i] = MemberStore.GetObj(i);
+            }
 
+            // Sort the members array by UserName
+            members = members.OrderBy(m => m.UserName).ToArray();
+
+            MemberStore.count = 0;
+            foreach (var member in members)
+            {
+                MemberStore.Add(member);
+            }
+        }
+        // Edit End
         public static void  ReadMember(DynamicArray<Member> MemberStore ,string user_id)
         {
              
@@ -141,9 +161,14 @@ namespace libraryMS
                         Console.WriteLine(book.Title +"(id:"+ book.BookId+")");
                     }
                 }
-            
-            
+
+
         }
         
+
+
+
+
+
     }
 }

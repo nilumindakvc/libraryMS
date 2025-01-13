@@ -86,9 +86,11 @@ namespace libraryMS
         public int ArrayCapacity()
         {
             return capacity;
-        } 
-    }
-    
+        }
 
-    
+        
+    }
+
+
+
 }

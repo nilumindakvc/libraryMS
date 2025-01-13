@@ -20,7 +20,9 @@ class Program
               "Add new book         -->  add  -book\n" +
               "Add new member       -->  add  -mem\n" +
               "Read member          -->  read -mem\n" +
-              "Borrow book          -->  bor\n"
+              "Borrow book          -->  bor\n" +
+              "member list          -->  memlist\n"//update deneth
+
         );
 
         
@@ -52,6 +54,19 @@ class Program
                 case "bor":
                     Service.BorrowBook(LibraryManager.BooksStore);
                     break;
+                    //update 1
+                case "memlist":
+                    Service.SortMembersByName(LibraryManager.MemberStore);  // Sort the member list
+                    Console.WriteLine("Sorted Member List:");
+                    for (int i = 0; i < LibraryManager.MemberStore.count; i++)
+                    {
+                        Member sortedMember = LibraryManager.MemberStore.GetObj(i);  // Fetch the sorted member
+                        Console.WriteLine($"{sortedMember.UserId}-{sortedMember.UserName}");  // Display sorted member info
+                    }
+                    break;
+
+                    //update 1 end
+
                 default:
                     Console.WriteLine("you have not give proper input");
                     break;
